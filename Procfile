@@ -1,1 +1,1 @@
-web: gunicorn civicsapp:app
+web: gunicorn app:app

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Your Representatives</h1>
+    <ul>
+        {% for rep in reps %}
+        <li>{{rep}}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

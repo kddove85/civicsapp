@@ -12,11 +12,20 @@ bp = Blueprint('civics', __name__)
 def index():
     form = AddressForm()
     if form.validate_on_submit():
-        return redirect(url_for('civics.run', zip_code=form.address.data))
+        return redirect(url_for('civics.run',
+                                street=form.street.data,
+                                city=form.city.data,
+                                state=form.state.data,
+                                zip=form.zip.data))
     return render_template('submit_address.html', title='Address', form=form)
 
 
-@bp.route('/<zip_code>')
-def run(zip_code):
-    reps_object = GoogleCivics.get_reps_by_zip(zip_code)
-    return render_template('reps.html', title='Your Reps by Zip Code', reps=reps_object)
+@bp.route('/reps')
+def run():
+    street = request.args.get('street')
+    city = request.args.get('city')
+    state = request.args.get('state')
+    zip = request.args.get('zip')
+    address = f"{street} {city} {state} {zip}"
+    response_dict = GoogleCivics.get_reps_by_zip(address)
+    return render_template('reps.html', title=f'Reps for {address}', response_obj=response_dict)

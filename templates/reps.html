@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <h1>Your Representatives</h1>
+{% block app_content %}
+    <h1>Representatives for {{ response_obj['zip_code'] }}</h1>
     <ul>
-        {% for rep in reps %}
-        <li>{{rep}}</li>
+        {% for rep in response_obj['reps'] %}
+        <li>{{rep['title']}}: {{rep['name']}}, {{rep['party']}}</li>
         {% endfor %}
     </ul>
+
+    <p>
+        Democrats: {{ response_obj['dem_count'] }}
+        Republicans: {{ response_obj['rep_count'] }}
+    </p>
 
 {% endblock %}

@@ -1,8 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import DataRequired
 
 
 class AddressForm(FlaskForm):
-    address = StringField('Address', validators=[DataRequired()])
+    street = StringField('Street Number')
+    city = StringField('City')
+    state = StringField('State', validators=[DataRequired()])
+    zip = IntegerField('Zip (5 Digit)')
     submit = SubmitField('Submit')

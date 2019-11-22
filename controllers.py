@@ -2,8 +2,8 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
-from .integrations import GoogleCivics
-from .forms import AddressForm
+from integrations import GoogleCivics
+from forms import AddressForm
 
 bp = Blueprint('civics', __name__)
 

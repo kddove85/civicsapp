@@ -76,6 +76,16 @@ def get_reps_by_zip(zip_code):
                 print('No Email Found')
             rep_dict['emails_list'] = emails_list
 
+            search_string_prefix = "https://news.google.com/search?q="
+            search_string_suffix = "&hl=en-US&gl=US&ceid=US%3Aen"
+            name = rep_dict['name']
+            name_list = name.split(" ")
+            separator = '%20'
+            new_name = separator.join(name_list)
+            search_string = f"{search_string_prefix}{new_name}{search_string_suffix}"
+            print(search_string)
+            rep_dict['search_string'] = search_string
+
             reps_list.append(rep_dict)
     response_dict['reps'] = reps_list
     response_dict['dem_count'] = democrats

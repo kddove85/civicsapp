@@ -1,12 +1,55 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+
     <h1>Representatives for {{ response_obj['zip_code'] }}</h1>
-    <ul>
+
+    {% set my_width = "20%" %}
+    <table class="table table-image">
         {% for rep in response_obj['reps'] %}
-        <li>{{rep['title']}}: {{rep['name']}}, {{rep['party']}}</li>
+        <tbody class={{rep['color']}}>
+            <th colspan="8"><b>{{rep['title']}}</b></th>
+            <tr>
+                <td rowspan="2"><img src={{rep['photo']}} class="img-fluid img-thumbnail" style="width:70%"></td>
+                <td width={{my_width}}>{{rep['name']}}</td>
+                <td width={{my_width}}>{{rep['party']}}</td>
+                <td width={{my_width}}>
+                    {% for phone in rep['phones'] %}
+                    {{phone}}<br>
+                    {% endfor %}
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td width={{my_width}}>
+                    {% for url in rep['urls'] %}
+                    <a href={{url}}>Link</a><br>
+                    {% endfor %}
+                </td>
+                    <td width={{my_width}}>
+                    {% for key in rep['channels'].keys() %}
+                    <a href=https://{{key}}.com/{{rep['channels'][key]}}>{{key}}</a><br>
+                    {% endfor %}
+                </td>
+                <td width={{my_width}}>
+                    {% for address in rep['address_list'] %}
+                        {% for key in address.keys() %}
+                            {% if address[key] != "" %}
+                                {{address[key]}}<br>
+                            {% endif %}
+                        {% endfor %}
+                    <br>
+                    {% endfor %}
+                </td>
+                <td width={{my_width}}>
+                    {% for email in rep['emails_list'] %}
+                        {{email}}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+        </tbody>
         {% endfor %}
-    </ul>
+    </table>
 
     <p>
         Democrats: {{ response_obj['dem_count'] }}

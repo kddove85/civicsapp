@@ -6,6 +6,6 @@ from wtforms.validators import DataRequired
 class AddressForm(FlaskForm):
     street = StringField('Street Number')
     city = StringField('City')
-    state = StringField('State', validators=[DataRequired()])
-    zip = IntegerField('Zip (5 Digit)')
+    state = StringField('State')
+    zip = StringField('Zip (5 Digit)', validators=[DataRequired()])
     submit = SubmitField('Submit')

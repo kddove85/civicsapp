@@ -18,14 +18,64 @@ def get_reps_by_zip(zip_code):
             rep_dict = {'title': office['name'],
                         'name': civics_dict['officials'][item]['name']}
             try:
-                rep_dict['party'] = civics_dict['officials'][item]['party']
-                if 'democrat' in rep_dict['party'].lower():
+                if 'democrat' in civics_dict['officials'][item]['party'].lower():
                     democrats += 1
-                if 'republican' in rep_dict['party'].lower():
+                    rep_dict['party'] = 'Democratic Party'
+                    rep_dict['color'] = 'bg-info'
+                if 'republican' in civics_dict['officials'][item]['party'].lower():
                     republicans += 1
+                    rep_dict['party'] = 'Republican Party'
+                    rep_dict['color'] = 'bg-danger'
             except KeyError:
                 rep_dict['party'] = 'None'
-            # reps_list.append(f"{office['name']}, {civics_dict['officials'][item]['name']}")
+                rep_dict['color'] = 'bg-default'
+
+            try:
+                rep_dict['photo'] = civics_dict['officials'][item]['photoUrl']
+            except KeyError:
+                rep_dict['photo'] = 'https://www.freeiconspng.com/uploads/no-image-icon-11.PNG'
+
+            phones_list = []
+            try:
+                for phone in civics_dict['officials'][item]['phones']:
+                    phones_list.append(phone)
+            except KeyError:
+                # rep_dict['phones'] = 'No Phone Numbers Available'
+                continue
+            rep_dict['phones'] = phones_list
+
+            urls_list = []
+            try:
+                for url in civics_dict['officials'][item]['urls']:
+                    urls_list.append(url)
+            except KeyError:
+                urls_list.append('No Links Found')
+            rep_dict['urls'] = urls_list
+
+            channels = {}
+            try:
+                for channel in civics_dict['officials'][item]['channels']:
+                    channels[channel['type']] = channel['id']
+            except KeyError:
+                print('No Channels Found')
+            rep_dict['channels'] = channels
+
+            address_list = []
+            try:
+                for address in civics_dict['officials'][item]['address']:
+                    address_list.append(address)
+            except KeyError:
+                print('No Address Found')
+            rep_dict['address_list'] = address_list
+
+            emails_list = []
+            try:
+                for email in civics_dict['officials'][item]['emails']:
+                    emails_list.append(email)
+            except KeyError:
+                print('No Email Found')
+            rep_dict['emails_list'] = emails_list
+
             reps_list.append(rep_dict)
     response_dict['reps'] = reps_list
     response_dict['dem_count'] = democrats

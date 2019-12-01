@@ -91,3 +91,23 @@ def get_reps_by_zip(zip_code):
     response_dict['dem_count'] = democrats
     response_dict['rep_count'] = republicans
     return response_dict
+
+
+def get_elections():
+    elections_list = []
+    response = requests.get('https://www.googleapis.com/civicinfo/v2/elections',
+                            params={'key': os.getenv('GOOGLE_API_KEY')})
+    civics_dict = response.json()
+    if civics_dict['elections']:
+        for election in civics_dict['elections']:
+            if election['ocdDivisionId']:
+                levels = election['ocdDivisionId'].split('/')
+                level = levels[-1].split(':')
+                election['level'] = level[0].upper()
+                election['level_value'] = level[1].upper()
+                elections_list.append(election)
+        for election in elections_list:
+            print(election)
+    else:
+        elections_list = None
+    return elections_list

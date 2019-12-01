@@ -29,3 +29,9 @@ def run():
     address = f"{street} {city} {state} {zip}"
     response_dict = GoogleCivics.get_reps_by_zip(address)
     return render_template('reps.html', title=f'Reps for {address}', response_obj=response_dict)
+
+
+@bp.route('/elections')
+def get_elections():
+    response_dict = GoogleCivics.get_elections()
+    return render_template('elections.html', title='Upcoming Elections', response_obj=response_dict)

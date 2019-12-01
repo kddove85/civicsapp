@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+    {% if response_obj is none %}
+        <h1>No Upcoming Elections</h1>
+    {% else %}
+        <h1>Upcoming Elections</h1>
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Election</th>
+              <th scope="col">Date</th>
+              <th scope="col">Level</th>
+              <th scope="col">Location</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for election in response_obj %}
+            <tr>
+              <td>{{ election['name'] }}</td>
+              <td>{{ election['electionDay'] }}</td>
+              <td>{{ election['level'] }}</td>
+              <td>{{ election['level_value'] }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

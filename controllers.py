@@ -3,6 +3,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from integrations import GoogleCivics
+from integrations import Propublica
 from forms import AddressForm
 
 bp = Blueprint('civics', __name__)
@@ -35,3 +36,9 @@ def run():
 def get_elections():
     response_dict = GoogleCivics.get_elections()
     return render_template('elections.html', title='Upcoming Elections', response_obj=response_dict)
+
+
+@bp.route('/senators')
+def get_senators():
+    response_dict = Propublica.get_senate_members()
+    return render_template('national_senate.html', title='US Senators', response_obj=response_dict)

@@ -31,6 +31,7 @@ except OSError:
 app.register_blueprint(controllers.bp)
 app.add_url_rule('/', endpoint='index')
 app.add_url_rule('/elections', endpoint='get_elections')
+app.add_url_rule('/senators', endpoint='get_senators')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

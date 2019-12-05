@@ -1,5 +1,17 @@
 {% extends 'bootstrap/base.html' %}
 
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config['GOOGLE_ANALYTICS_CODE'] }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '{{ config['GOOGLE_ANALYTICS_CODE'] }}');
+    </script>
+</head>
+
 {% block title %}
     {% if title %}{{ title }} - Civics App{% else %} Civics App{% endif %}
 {% endblock %}

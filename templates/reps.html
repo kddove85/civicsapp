@@ -2,13 +2,17 @@
 
 {% block app_content %}
 
-    <h1>Representatives for {{ response_obj['zip_code'] }}</h1>
+    <h1 align="center">Representatives for {{ response_obj['address'] }}</h1>
 
     {% set my_width = "20%" %}
     <table class="table table-image">
         {% for rep in response_obj['reps'] %}
         <tbody class={{rep['color']}}>
-            <th colspan="8"><b>{{rep['title']}}</b></th>
+
+<!--            <tr>-->
+                <th colspan="5"><b>{{rep['title']}}</b></th>
+
+<!--            </tr>-->
             <tr>
                 <td rowspan="2"><img src={{rep['photo']}} class="img-fluid img-thumbnail" style="width:70%"></td>
                 <td width={{my_width}}>{{rep['name']}}</td>

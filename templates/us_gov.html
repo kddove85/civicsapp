@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+    <h1>US Senators</h1>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Party</th>
+              <th scope="col">State</th>
+              <th scope="col">Next Election</th>
+                <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for member in response_obj['senators'] %}
+            <tr class="{{ member['color'] }}">
+              <td>{{ member['name'] }}</td>
+              <td>{{ member['party'] }}</td>
+              <td>{{ member['state'] }}</td>
+              <td>{{ member['next_election'] }}</td>
+                <td>
+                    <a href={{ member['search_string'] }}>News</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        Democrats: {{ response_obj['senate_dems'] }}
+        Republicans: {{ response_obj['senate_reps'] }}
+        Independents: {{ response_obj['senate_inds'] }}
+    </p>
+
+    <h1>US House Members</h1>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Party</th>
+              <th scope="col">State</th>
+                <th scope="col">District</th>
+              <th scope="col">Next Election</th>
+                <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for member in response_obj['congressmen'] %}
+            <tr class="{{ member['color'] }}">
+              <td>{{ member['name'] }}</td>
+              <td>{{ member['party'] }}</td>
+              <td>{{ member['state'] }}</td>
+                <td>{{ member['district'] }}</td>
+              <td>{{ member['next_election'] }}</td>
+                <td>
+                    <a href={{ member['search_string'] }}>News</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        Democrats: {{ response_obj['house_dems'] }}
+        Republicans: {{ response_obj['house_reps'] }}
+        Independents: {{ response_obj['house_inds'] }}
+    </p>
+
+{% endblock %}

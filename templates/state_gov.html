@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+    <h1>{{ response_obj['state'].upper() }} Senators for the State</h1>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Party</th>
+              <th scope="col">District</th>
+<!--              <th scope="col">Next Election</th>-->
+                <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for member in response_obj['senators'] %}
+            <tr class="{{ member['color'] }}">
+              <td>{{ member['name'] }}</td>
+              <td>{{ member['party'] }}</td>
+              <td>{{ member['district'] }}</td>
+                <td>
+                    <a href={{ member['search_string'] }}>News</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        Democrats: {{ response_obj['senate_dems'] }}
+        Republicans: {{ response_obj['senate_reps'] }}
+        Independents: {{ response_obj['senate_inds'] }}
+    </p>
+
+    <h1>{{ response_obj['state'].upper() }} House Members for the State</h1>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Party</th>
+              <th scope="col">District</th>
+<!--              <th scope="col">Next Election</th>-->
+                <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for member in response_obj['congressmen'] %}
+            <tr class="{{ member['color'] }}">
+              <td>{{ member['name'] }}</td>
+              <td>{{ member['party'] }}</td>
+              <td>{{ member['district'] }}</td>
+                <td>
+                    <a href={{ member['search_string'] }}>News</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        Democrats: {{ response_obj['house_dems'] }}
+        Republicans: {{ response_obj['house_reps'] }}
+        Independents: {{ response_obj['house_inds'] }}
+    </p>
+
+{% endblock %}

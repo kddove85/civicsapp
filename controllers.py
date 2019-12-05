@@ -4,7 +4,10 @@ from flask import (
 from werkzeug.exceptions import abort
 from integrations import GoogleCivics
 from integrations import Propublica
+from integrations.OpenStates import OpenStates
+from integrations.Propublica import Propublica
 from forms import AddressForm
+from forms import StateForm
 
 bp = Blueprint('civics', __name__)
 
@@ -13,7 +16,7 @@ bp = Blueprint('civics', __name__)
 def index():
     form = AddressForm()
     if form.validate_on_submit():
-        return redirect(url_for('civics.run',
+        return redirect(url_for('civics.get_reps',
                                 street=form.street.data,
                                 city=form.city.data,
                                 state=form.state.data,
@@ -22,13 +25,13 @@ def index():
 
 
 @bp.route('/reps')
-def run():
+def get_reps():
     street = request.args.get('street')
     city = request.args.get('city')
     state = request.args.get('state')
     zip = request.args.get('zip')
     address = f"{street} {city} {state} {zip}"
-    response_dict = GoogleCivics.get_reps_by_zip(address)
+    response_dict = GoogleCivics.get_reps_by_address(address)
     return render_template('reps.html', title=f'Reps for {address}', response_obj=response_dict)
 
 
@@ -40,5 +43,21 @@ def get_elections():
 
 @bp.route('/senators')
 def get_senators():
-    response_dict = Propublica.get_senate_members()
-    return render_template('national_senate.html', title='US Senators', response_obj=response_dict)
+    response_dict = Propublica().get_us_members()
+    return render_template('us_gov.html', title='US Senators', response_obj=response_dict)
+
+
+@bp.route('/submit_state_senators', methods=['GET', 'POST'])
+def submit_for_state_senators():
+    form = StateForm()
+    if form.validate_on_submit():
+        return redirect(url_for('civics.get_senators_by_state',
+                                state=form.state.data))
+    return render_template('submit_state.html', title='State', form=form)
+
+
+@bp.route('/state_senators')
+def get_senators_by_state():
+    state = request.args.get('state')
+    response_dict = OpenStates().get_state_members(state.lower())
+    return render_template('state_gov.html', title=f'Senators for {state}', response_obj=response_dict)

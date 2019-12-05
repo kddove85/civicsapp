@@ -3,13 +3,13 @@ import os
 import json
 
 
-def get_reps_by_zip(zip_code):
-    response_dict = {'zip_code': zip_code}
+def get_reps_by_address(address):
+    response_dict = {'address': address}
     democrats = 0
     republicans = 0
     reps_list = []
     response = requests.get('https://www.googleapis.com/civicinfo/v2/representatives',
-                            params={'address': zip_code,
+                            params={'address': address,
                                     'key': os.getenv('GOOGLE_API_KEY')})
 
     civics_dict = response.json()
@@ -17,6 +17,7 @@ def get_reps_by_zip(zip_code):
         for item in office['officialIndices']:
             rep_dict = {'title': office['name'],
                         'name': civics_dict['officials'][item]['name']}
+                        # 'division': get_division(civics_dict['divisions'].values(), item)}
             try:
                 if 'democrat' in civics_dict['officials'][item]['party'].lower():
                     democrats += 1
@@ -83,14 +84,24 @@ def get_reps_by_zip(zip_code):
             separator = '%20'
             new_name = separator.join(name_list)
             search_string = f"{search_string_prefix}{new_name}{search_string_suffix}"
-            print(search_string)
             rep_dict['search_string'] = search_string
 
             reps_list.append(rep_dict)
+    for rep in reps_list:
+        print(rep)
     response_dict['reps'] = reps_list
     response_dict['dem_count'] = democrats
     response_dict['rep_count'] = republicans
     return response_dict
+
+
+def get_division(divisions, item):
+    for division in divisions:
+        try:
+            if item in division['officeIndices']:
+                return division['name']
+        except KeyError:
+            continue
 
 
 def get_elections():
@@ -106,8 +117,6 @@ def get_elections():
                 election['level'] = level[0].upper()
                 election['level_value'] = level[1].upper()
                 elections_list.append(election)
-        for election in elections_list:
-            print(election)
     else:
         elections_list = None
     return elections_list

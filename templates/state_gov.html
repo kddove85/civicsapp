@@ -4,13 +4,16 @@
 
     <h1>{{ response_obj['state'].upper() }} Senators for the State</h1>
 
+<div class="jumbotron">
+    <canvas id="senate" style="width:1024px;height:384px"></canvas>
+</div>
+
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Party</th>
               <th scope="col">District</th>
-<!--              <th scope="col">Next Election</th>-->
                 <th scope="col"></th>
             </tr>
           </thead>
@@ -27,13 +30,15 @@
         {% endfor %}
     </table>
 
-    <p>
-        Democrats: {{ response_obj['senate_dems'] }}
-        Republicans: {{ response_obj['senate_reps'] }}
-        Independents: {{ response_obj['senate_inds'] }}
-    </p>
+<br>
+<br>
+<br>
 
     <h1>{{ response_obj['state'].upper() }} House Members for the State</h1>
+
+<div class="jumbotron">
+    <canvas id="congress" style="width:1024px;height:384px"></canvas>
+</div>
 
         <table class="table">
           <thead>
@@ -41,7 +46,6 @@
               <th scope="col">Name</th>
               <th scope="col">Party</th>
               <th scope="col">District</th>
-<!--              <th scope="col">Next Election</th>-->
                 <th scope="col"></th>
             </tr>
           </thead>
@@ -58,10 +62,12 @@
         {% endfor %}
     </table>
 
-    <p>
-        Democrats: {{ response_obj['house_dems'] }}
-        Republicans: {{ response_obj['house_reps'] }}
-        Independents: {{ response_obj['house_inds'] }}
-    </p>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script>
+    drawgraph("senate", [{{ response_obj['senate_dems'] }}, {{ response_obj['senate_reps'] }}, {{ response_obj['senate_inds'] }}]);
+    drawgraph("congress", [{{ response_obj['house_dems'] }}, {{ response_obj['house_reps'] }}, {{ response_obj['house_inds'] }}]);
+</script>
 
 {% endblock %}

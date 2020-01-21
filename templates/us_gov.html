@@ -2,70 +2,80 @@
 
 {% block app_content %}
 
-    <h1>US Senators</h1>
+<h1>US Senators</h1>
 
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Party</th>
-              <th scope="col">State</th>
-              <th scope="col">Next Election</th>
-                <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-        {% for member in response_obj['senators'] %}
-            <tr class="{{ member['color'] }}">
-              <td>{{ member['name'] }}</td>
-              <td>{{ member['party'] }}</td>
-              <td>{{ member['state'] }}</td>
-              <td>{{ member['next_election'] }}</td>
-                <td>
-                    <a href={{ member['search_string'] }}>News</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+<div class="jumbotron">
+    <canvas id="senate" style="width:1024px;height:384px"></canvas>
+</div>
 
-    <p>
-        Democrats: {{ response_obj['senate_dems'] }}
-        Republicans: {{ response_obj['senate_reps'] }}
-        Independents: {{ response_obj['senate_inds'] }}
-    </p>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Party</th>
+      <th scope="col">State</th>
+      <th scope="col">Next Election</th>
+        <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for member in response_obj['senators'] %}
+        <tr class="{{ member['color'] }}">
+          <td>{{ member['name'] }}</td>
+          <td>{{ member['party'] }}</td>
+          <td>{{ member['state'] }}</td>
+          <td>{{ member['next_election'] }}</td>
+            <td>
+                <a href={{ member['search_string'] }}>News</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
 
-    <h1>US House Members</h1>
+<br>
+<br>
+<br>
 
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Party</th>
-              <th scope="col">State</th>
-                <th scope="col">District</th>
-              <th scope="col">Next Election</th>
-                <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-        {% for member in response_obj['congressmen'] %}
-            <tr class="{{ member['color'] }}">
-              <td>{{ member['name'] }}</td>
-              <td>{{ member['party'] }}</td>
-              <td>{{ member['state'] }}</td>
-                <td>{{ member['district'] }}</td>
-              <td>{{ member['next_election'] }}</td>
-                <td>
-                    <a href={{ member['search_string'] }}>News</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+<h1>US House Members</h1>
 
-    <p>
-        Democrats: {{ response_obj['house_dems'] }}
-        Republicans: {{ response_obj['house_reps'] }}
-        Independents: {{ response_obj['house_inds'] }}
-    </p>
+<div class="jumbotron">
+    <canvas id="congress" style="width:1024px;height:384px"></canvas>
+</div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Party</th>
+          <th scope="col">State</th>
+            <th scope="col">District</th>
+          <th scope="col">Next Election</th>
+            <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for member in response_obj['congressmen'] %}
+        <tr class="{{ member['color'] }}">
+          <td>{{ member['name'] }}</td>
+          <td>{{ member['party'] }}</td>
+          <td>{{ member['state'] }}</td>
+            <td>{{ member['district'] }}</td>
+          <td>{{ member['next_election'] }}</td>
+            <td>
+                <a href={{ member['search_string'] }}>News</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script>
+    drawgraph("senate", [{{ response_obj['senate_dems'] }}, {{ response_obj['senate_reps'] }}, {{ response_obj['senate_inds'] }}]);
+    drawgraph("congress", [{{ response_obj['house_dems'] }}, {{ response_obj['house_reps'] }}, {{ response_obj['house_inds'] }}]);
+</script>
+
 
 {% endblock %}
+

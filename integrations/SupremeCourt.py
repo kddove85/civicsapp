@@ -48,6 +48,5 @@ def combine(justices, photos):
     for justice in justices:
         for photo in photos:
             if justice['name'] == photo['name']:
-                print('found')
                 justice['photo'] = f"{base_url}{photo['photo']}"
     return justices

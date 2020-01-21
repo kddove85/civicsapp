@@ -1,9 +1,9 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, redirect, render_template, request, url_for
 )
-from werkzeug.exceptions import abort
 from integrations import GoogleCivics
 from integrations import Propublica
+from integrations import SupremeCourt
 from integrations.OpenStates import OpenStates
 from integrations.Propublica import Propublica
 from forms import AddressForm
@@ -61,3 +61,9 @@ def get_senators_by_state():
     state = request.args.get('state')
     response_dict = OpenStates().get_state_members(state.lower())
     return render_template('state_gov.html', title=f'Senators for {state}', response_obj=response_dict)
+
+
+@bp.route('/supreme_court')
+def get_supreme_court():
+    response_dict = {'justices': SupremeCourt.get_justices()}
+    return render_template('supreme_court.html', title=f'Supreme Court', response_obj=response_dict)

@@ -67,3 +67,9 @@ def get_senators_by_state():
 def get_supreme_court():
     response_dict = {'justices': SupremeCourt.get_justices()}
     return render_template('supreme_court.html', title=f'Supreme Court', response_obj=response_dict)
+
+
+@bp.after_request
+def apply_caching(response):
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    return response

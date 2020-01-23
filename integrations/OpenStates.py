@@ -43,13 +43,17 @@ class OpenStates:
 
     def add_member(self, item):
         if item['chamber'] == 'upper':
+            party = item['party'].split('/')
+            if len(party) > 1:
+                if party[0] == 'Democratic':
+                    item['party'] = 'Democratic'
             if item['party'] == 'Democratic':
                 item['color'] = 'bg-info'
                 self.senate_democrats += 1
-            if item['party'] == 'Republican':
+            elif item['party'] == 'Republican':
                 item['color'] = 'bg-danger'
                 self.senate_republicans += 1
-            if item['party'] == 'Independent':
+            else:
                 item['color'] = 'bg-secondary'
                 self.senate_independents += 1
             self.senate_members_list.append({'name': item['full_name'],
@@ -60,13 +64,17 @@ class OpenStates:
                                              'search_string': utilities.get_search_string(item)
                                              })
         if item['chamber'] == 'lower':
+            party = item['party'].split('/')
+            if len(party) > 1:
+                if party[0] == 'Democratic':
+                    item['party'] = 'Democratic'
             if item['party'] == 'Democratic':
                 item['color'] = 'bg-info'
                 self.house_democrats += 1
-            if item['party'] == 'Republican':
+            elif item['party'] == 'Republican':
                 item['color'] = 'bg-danger'
                 self.house_republicans += 1
-            if item['party'] == 'Independent':
+            else:
                 item['color'] = 'bg-secondary'
                 self.house_independents += 1
             self.house_members_list.append({'name': item['full_name'],

@@ -34,6 +34,7 @@ app.add_url_rule('/elections', endpoint='get_elections')
 app.add_url_rule('/senators', endpoint='get_senators')
 app.add_url_rule('/submit_state_senators', endpoint='submit_for_state_senators')
 app.add_url_rule('/supreme_court', endpoint='get_supreme_court')
+app.add_url_rule('/candidates', endpoint='get_candidates')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

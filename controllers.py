@@ -4,6 +4,7 @@ from flask import (
 from integrations import GoogleCivics
 from integrations import Propublica
 from integrations import SupremeCourt
+from integrations import Ballotopedia
 from integrations.OpenStates import OpenStates
 from integrations.Propublica import Propublica
 from forms import AddressForm
@@ -67,6 +68,12 @@ def get_senators_by_state():
 def get_supreme_court():
     response_dict = {'justices': SupremeCourt.get_justices()}
     return render_template('supreme_court.html', title=f'Supreme Court', response_obj=response_dict)
+
+
+@bp.route('/candidates')
+def get_candidates():
+    response_dict = {'candidates': Ballotopedia.get_candidates()}
+    return render_template('candidates.html', title=f'Candidates', response_obj=response_dict)
 
 
 @bp.after_request

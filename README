@@ -1,1 +1,9 @@
-README
+CivicsApp uses the Flask framework. Also required to run are a few API keys that include:
+
+GOOGLE_API_KEY
+PROPUBLICA_API_KEY
+OPENSTATE_API_KEY
+
+The current congress is the 116th, which, along with the aforementioned API keys will have to be set as an enrvironmental variable:
+
+CONGRESS=116

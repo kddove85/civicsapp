@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-
 <h1>US Senators</h1>
 
 <div class="jumbotron">
@@ -15,6 +14,7 @@
       <th scope="col">Party</th>
       <th scope="col">State</th>
       <th scope="col">Next Election</th>
+        <th>Opponent(s)</th>
         <th scope="col"></th>
     </tr>
   </thead>
@@ -25,6 +25,7 @@
           <td>{{ member['party'] }}</td>
           <td>{{ member['state'] }}</td>
           <td>{{ member['next_election'] }}</td>
+            <td>N/A</td>
             <td>
                 <a href={{ member['search_string'] }}>News</a>
             </td>
@@ -50,6 +51,7 @@
           <th scope="col">State</th>
             <th scope="col">District</th>
           <th scope="col">Next Election</th>
+            <th>Opponent(s)</th>
             <th scope="col"></th>
         </tr>
       </thead>
@@ -61,6 +63,7 @@
           <td>{{ member['state'] }}</td>
             <td>{{ member['district'] }}</td>
           <td>{{ member['next_election'] }}</td>
+            <td>N/A</td>
             <td>
                 <a href={{ member['search_string'] }}>News</a>
             </td>

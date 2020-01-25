@@ -1,6 +1,7 @@
 from flask import (
     Blueprint, redirect, render_template, request, url_for
 )
+
 from integrations import GoogleCivics
 from integrations import Propublica
 from integrations import SupremeCourt
@@ -42,9 +43,10 @@ def get_elections():
     return render_template('elections.html', title='Upcoming Elections', response_obj=response_dict)
 
 
-@bp.route('/senators')
-def get_senators():
+@bp.route('/us_gov')
+def get_us_gov():
     response_dict = Propublica().get_us_members()
+    Ballotopedia.get_opponents(response_dict)
     return render_template('us_gov.html', title='US Senators', response_obj=response_dict)
 
 
@@ -57,11 +59,14 @@ def submit_for_state_senators():
     return render_template('submit_state.html', title='State', form=form)
 
 
-@bp.route('/state_senators')
+@bp.route('/state_senators', methods=['GET', 'POST'])
 def get_senators_by_state():
+    form = StateForm()
+    if form.validate_on_submit():
+        return redirect(url_for('civics.get_senators_by_state', state=form.state.data))
     state = request.args.get('state')
     response_dict = OpenStates().get_state_members(state.lower())
-    return render_template('state_gov.html', title=f'Senators for {state}', response_obj=response_dict)
+    return render_template('state_gov.html', title=f'Senators for {state}', response_obj=response_dict, form=form)
 
 
 @bp.route('/supreme_court')

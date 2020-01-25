@@ -1,8 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
+import states
+import datetime
 
 base_url = 'https://ballotpedia.org'
 candidates = '/Democratic_presidential_nomination,_2020'
+congressional_races = '/United_States_House_of_Representatives_elections,_2020'
+senate_races = '/United_States_Senate_elections,_2020'
+race = 'United_States_Senate_election_in_Alabama,_2020'
 
 rcp = 'https://www.realclearpolitics.com/epolls/2020/president/us/2020_democratic_presidential_nomination-6730.html'
 
@@ -55,3 +60,32 @@ def combine(candidates_list, polls):
                 candidate['score'] = poll['score']
     candidates_list = sorted(candidates_list, key=lambda i: float(i['score']), reverse=True)
     return candidates_list
+
+
+def get_opponents(input_dict):
+    print(datetime.datetime.now())
+    for senator in input_dict['senators']:
+        if senator['next_election'] == '2020':
+            print(senator)
+            opponents = []
+            state_name = states.return_name(senator['state'])
+            response = requests.get(f"{base_url}/United_States_Senate_election_in_{state_name},_2020")
+            soup = BeautifulSoup(response.text, 'html.parser')
+            unordered_lists = soup.find_all('ul')
+            try:
+                for ul in unordered_lists:
+                    list_items = ul.find_all('li')
+                    for li in list_items:
+                        links = li.find_all('a')
+                        for link in links:
+                            attrs = link.attrs
+                            if 'https://ballotpedia.org/' in attrs['href'] and '(Incumbent)' not in li.text:
+                                opponents.append({'name': link.text, 'link': attrs['href']})
+                senator['opponents'] = opponents
+            except AttributeError:
+                continue
+        else:
+            senator['opponents'] = ['N/A']
+        print(senator['opponents'])
+    print(datetime.datetime.now())
+

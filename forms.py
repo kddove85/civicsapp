@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
 from wtforms.validators import DataRequired
-from states import States
+import states
 
 
 class AddressForm(FlaskForm):
@@ -14,7 +14,7 @@ class AddressForm(FlaskForm):
 
 class StateForm(FlaskForm):
     state = SelectField('',
-                        choices=[(s['alpha'], s['name']) for s in States.states])
+                        choices=[(s['alpha'], s['name']) for s in states.states])
     submit = SubmitField('Submit')
 
 

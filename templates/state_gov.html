@@ -1,8 +1,20 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
 
-    <h1>{{ response_obj['state'].upper() }} Senators for the State</h1>
+<h1>State</h1>
+<div class="row">
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<h1>{{ response_obj['state'].upper() }} Senators for the State</h1>
 
 <div class="jumbotron">
     <canvas id="senate" style="width:1024px;height:384px"></canvas>

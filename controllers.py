@@ -46,7 +46,6 @@ def get_elections():
 @bp.route('/us_gov')
 def get_us_gov():
     response_dict = Propublica().get_us_members()
-    Ballotopedia.get_opponents(response_dict)
     return render_template('us_gov.html', title='US Senators', response_obj=response_dict)
 
 
@@ -79,6 +78,17 @@ def get_supreme_court():
 def get_candidates():
     response_dict = {'candidates': Ballotopedia.get_candidates()}
     return render_template('candidates.html', title=f'Candidates', response_obj=response_dict)
+
+
+@bp.route('/opponents/<state>', defaults={'district': None})
+@bp.route('/opponents/<state>/<district>')
+def get_us_senate_opponents(state, district):
+    if district is None:
+        response_dict = {'opponents': Ballotopedia.get_senate_opponents(state)}
+        return render_template('opponents.html', title=f'Opponents', response_obj=response_dict)
+    else:
+        response_dict = {'opponents': Ballotopedia.get_congressional_opponents(state, district)}
+        return render_template('opponents.html', title=f'Opponents', response_obj=response_dict)
 
 
 @bp.after_request

@@ -1,6 +1,7 @@
 import requests
 import os
 import utilities
+import datetime
 
 
 class Propublica:
@@ -13,13 +14,16 @@ class Propublica:
         self.house_democrats = 0
         self.house_republicans = 0
         self.house_independents = 0
+        self.current_year = str(datetime.datetime.now().year)
 
     def get_us_members(self):
         response_object = {}
-        senate_response = requests.get(f"https://api.propublica.org/congress/v1/{os.getenv('CONGRESS')}/senate/members.json",
-                                        headers={'X-API-Key': os.getenv('PROPUBLICA_API_KEY')}).json()
-        house_response = requests.get(f"https://api.propublica.org/congress/v1/{os.getenv('CONGRESS')}/house/members.json",
-                                        headers={'X-API-Key': os.getenv('PROPUBLICA_API_KEY')}).json()
+        senate_response = requests.get(
+            f"https://api.propublica.org/congress/v1/{os.getenv('CONGRESS')}/senate/members.json",
+            headers={'X-API-Key': os.getenv('PROPUBLICA_API_KEY')}).json()
+        house_response = requests.get(
+            f"https://api.propublica.org/congress/v1/{os.getenv('CONGRESS')}/house/members.json",
+            headers={'X-API-Key': os.getenv('PROPUBLICA_API_KEY')}).json()
 
         for item in senate_response['results'][0]['members']:
             self.add_member('upper', item)
@@ -50,6 +54,8 @@ class Propublica:
         response_object['house_dems'] = self.house_democrats
         response_object['house_reps'] = self.house_republicans
         response_object['house_inds'] = self.house_independents
+
+        response_object['current_year'] = self.current_year
 
         return response_object
 

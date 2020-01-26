@@ -25,10 +25,15 @@
           <td>{{ member['party'] }}</td>
           <td>{{ member['state'] }}</td>
           <td>{{ member['next_election'] }}</td>
-            <td>N/A</td>
-            <td>
-                <a href={{ member['search_string'] }}>News</a>
-            </td>
+            {% if member['next_election'] == response_obj['current_year'] %}
+                <td><a href="{{ url_for('get_opponents') }}/{{ member['state'] }}">Opponent(s)</a></td>
+            {% else %}
+                <td>N/A</td>
+            {% endif %}
+          <td></td>
+          <td>
+            <a href={{ member['search_string'] }}>News</a>
+          </td>
         </tr>
     {% endfor %}
 </table>
@@ -63,7 +68,11 @@
           <td>{{ member['state'] }}</td>
             <td>{{ member['district'] }}</td>
           <td>{{ member['next_election'] }}</td>
-            <td>N/A</td>
+            {% if member['next_election'] == response_obj['current_year'] %}
+                <td><a href="{{ url_for('get_opponents') }}/{{ member['state'] }}/{{ member['district'] }}">Opponent(s)</a></td>
+            {% else %}
+                <td>N/A</td>
+            {% endif %}
             <td>
                 <a href={{ member['search_string'] }}>News</a>
             </td>

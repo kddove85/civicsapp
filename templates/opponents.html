@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1>Opponents</h1>
+
+<table class="table">
+  <tbody>
+  {% for opponent in response_obj['opponents'] %}
+    <tr class="{{ opponent['color'] }}">
+      <td>{{ opponent['name'] }}</td>
+      <td><a href = "{{ opponent['link'] }}">Biography</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

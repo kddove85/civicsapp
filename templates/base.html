@@ -21,7 +21,7 @@
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('get_senators') }}">US Government</a></li>
+                    <li><a href="{{ url_for('get_us_gov') }}">US Government</a></li>
                 </ul>
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('submit_for_state_senators') }}">State Government</a></li>
@@ -38,6 +38,7 @@
             </div>
         </div>
     </nav>
+
 {% endblock %}
 
 {% block content %}

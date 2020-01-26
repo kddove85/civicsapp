@@ -18,4 +18,3 @@ function drawgraph(id, values) {
     data: pieData
    });
 }
-

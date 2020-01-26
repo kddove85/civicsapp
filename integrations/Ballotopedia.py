@@ -78,7 +78,7 @@ def get_senate_opponents(state):
                 links = li.find_all('a')
                 for link in links:
                     attrs = link.attrs
-                    if 'https://ballotpedia.org/' in attrs['href'] and '(Incumbent)' not in li.text:
+                    if base_url in attrs['href'] and '(Incumbent)' not in li.text:
                         party = 'Independent'
                         color = 'bg-default'
                         if 'democrat' in ul.fetchPrevious('span')[0].text.lower():
@@ -112,7 +112,7 @@ def get_congressional_opponents(state, district):
                 links = li.find_all('a')
                 for link in links:
                     attrs = link.attrs
-                    if 'https://ballotpedia.org/' in attrs['href'] and '(Incumbent)' not in li.text:
+                    if base_url in attrs['href'] and '(Incumbent)' not in li.text:
                         party = 'Independent'
                         color = 'bg-default'
                         if 'democrat' in ul.fetchPrevious('span')[0].text.lower():

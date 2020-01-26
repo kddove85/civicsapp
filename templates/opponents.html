@@ -8,6 +8,7 @@
   {% for opponent in response_obj['opponents'] %}
     <tr class="{{ opponent['color'] }}">
       <td>{{ opponent['name'] }}</td>
+      <td>{{ opponent['party'] }}</td>
       <td><a href = "{{ opponent['link'] }}">Biography</a></td>
     </tr>
   {% endfor %}

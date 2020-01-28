@@ -115,10 +115,10 @@ def get_congressional_opponents(state, district):
                     if base_url in attrs['href'] and '(Incumbent)' not in li.text:
                         party = 'Independent'
                         color = 'bg-default'
-                        if 'democrat' in ul.fetchPrevious('span')[0].text.lower():
+                        if 'democrat' in ul.fetchPrevious('span')[0].text.lower() or '(D)' in li.text:
                             party = 'Democratic'
                             color = 'bg-info'
-                        if 'republican' in ul.fetchPrevious('span')[0].text.lower():
+                        if 'republican' in ul.fetchPrevious('span')[0].text.lower() or '(R)' in li.text:
                             party = 'Republican'
                             color = 'bg-danger'
                         opponents.append({'name': link.text, 'party': party, 'color': color, 'link': attrs['href']})

@@ -4,6 +4,10 @@ GOOGLE_API_KEY
 PROPUBLICA_API_KEY
 OPENSTATE_API_KEY
 
+To get your very own google api key, visit here: https://console.cloud.google.com/apis/dashboard
+Probublica: https://www.propublica.org/datastore/account
+Openstates: https://openstates.org/accounts/login/
+
 The current congress is the 116th, which, along with the aforementioned API keys will have to be set as an enrvironmental variable:
 
 CONGRESS=116

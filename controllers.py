@@ -6,6 +6,7 @@ from integrations import GoogleCivics
 from integrations import Propublica
 from integrations import SupremeCourt
 from integrations import Ballotopedia
+from integrations import Elections
 from integrations.OpenStates import OpenStates
 from integrations.Propublica import Propublica
 from forms import AddressForm
@@ -39,7 +40,24 @@ def get_reps():
 
 @bp.route('/elections')
 def get_elections():
-    response_dict = GoogleCivics.get_elections()
+    response_dict = {}
+    elections_list = []
+    google_elections = GoogleCivics.get_elections()
+    gp_elections = Elections.get_election_info()
+    for election in gp_elections:
+        elections_list.append(election)
+    inititail_list = elections_list
+    is_election_new = True
+    for election in google_elections:
+        for initial_election in inititail_list:
+            if election['date'] == initial_election['date'] and election['level_value'] == initial_election['level_value']:
+                is_election_new = False
+                break
+        if is_election_new:
+            elections_list.append(election)
+        is_election_new = True
+    elections_list = sorted(elections_list, key=lambda i: i['date'])
+    response_dict['elections'] = elections_list
     return render_template('elections.html', title='Upcoming Elections', response_obj=response_dict)
 
 

@@ -116,7 +116,10 @@ def get_elections():
                 level = levels[-1].split(':')
                 election['level'] = level[0].upper()
                 election['level_value'] = level[1].upper()
-                elections_list.append(election)
+                new_election = {'name': election['name'], 'date': election['electionDay'], 'level': election['level'],
+                                'level_value': election['level_value']}
+                elections_list.append(new_election)
+        elections_list = sorted(elections_list, key=lambda i: i['date'])
     else:
         elections_list = None
     return elections_list

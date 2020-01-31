@@ -15,9 +15,9 @@ states = [
     {"name": "Illinois", "alpha": "IL"},
     {"name": "Indiana", "alpha": "IN"},
     {"name": "Iowa", "alpha": "IA"},
-    {"name": "Kansa", "alpha": "KS"},
+    {"name": "Kansas", "alpha": "KS"},
     {"name": "Kentucky", "alpha": "KY"},
-    {"name": "Lousiana", "alpha": "LA"},
+    {"name": "Louisiana", "alpha": "LA"},
     {"name": "Maine", "alpha": "ME"},
     {"name": "Maryland", "alpha": "MD"},
     {"name": "Massachusetts", "alpha": "MA"},
@@ -57,3 +57,9 @@ def return_name(alpha):
     for state in states:
         if state['alpha'] == alpha:
             return state['name']
+
+
+def return_alpha(name):
+    for state in states:
+        if state['name'] == name:
+            return state['alpha']

@@ -26,9 +26,11 @@ class Propublica:
             headers={'X-API-Key': os.getenv('PROPUBLICA_API_KEY')}).json()
 
         for item in senate_response['results'][0]['members']:
-            self.add_member('upper', item)
+            if item['in_office']:
+                self.add_member('upper', item)
         for item in house_response['results'][0]['members']:
-            self.add_member('lower', item)
+            if item['in_office']:
+                self.add_member('lower', item)
 
         try:
             response_object['senators'] = sorted(self.senate_members_list, key=lambda i: (i['state'], i['last_name']))

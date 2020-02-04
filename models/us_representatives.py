@@ -42,19 +42,10 @@ def get_us_members():
         if item['in_office']:
             info_dictionary = add_member('lower', item, info_dictionary)
 
-    try:
-        response_object['senators'] = sorted(info_dictionary['senate_members_list'],
-                                             key=lambda i: (i.state, i.last_name))
-    except ValueError:
-        response_object['senators'] = sorted(info_dictionary['senate_members_list'],
-                                             key=lambda i: (i.state, i.last_name))
-
-    try:
-        response_object['congressmen'] = sorted(info_dictionary['house_members_list'],
-                                                key=lambda i: (i.state, int(i.district), i.last_name))
-    except ValueError:
-        response_object['congressmen'] = sorted(info_dictionary['house_members_list'],
-                                                key=lambda i: (i.state, int(i.district), i.last_name))
+    response_object['senators'] = sorted(info_dictionary['senate_members_list'],
+                                         key=lambda i: (i.state, i.last_name))
+    response_object['congressmen'] = sorted(info_dictionary['house_members_list'],
+                                            key=lambda i: (i.state, int(i.district), i.last_name))
 
     for congressman in response_object['congressmen']:
         if congressman.district == 0:

@@ -34,7 +34,6 @@ def get_state_members(state):
         response_object['senators'] = sorted(info_dictionary['senate_members_list'],
                                              key=lambda i: (int(i.district), i.last_name))
     except ValueError:
-        print('senator value error')
         response_object['senators'] = sorted(info_dictionary['senate_members_list'],
                                              key=lambda i: (i.district, i.last_name))
 

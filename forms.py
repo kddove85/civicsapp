@@ -13,8 +13,7 @@ class AddressForm(FlaskForm):
 
 
 class StateForm(FlaskForm):
-    state = SelectField('',
-                        choices=[(s['alpha'], s['name']) for s in states.states])
+    state = SelectField('', choices=states.get_states())
     submit = SubmitField('Submit')
 
 

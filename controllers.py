@@ -2,13 +2,13 @@ from flask import (
     Blueprint, redirect, render_template, request, url_for
 )
 
-from integrations import GoogleCivics
-from integrations import Propublica
-from integrations import SupremeCourt
-from integrations import Ballotopedia
-from integrations import Elections
-from integrations.OpenStates import OpenStates
-from integrations.Propublica import Propublica
+from models import representatives
+from models import us_representatives
+from models import state_representatives
+from models import us_opponents
+from models import elections
+from models import justices
+from models import candidates
 from forms import AddressForm
 from forms import StateForm
 
@@ -34,36 +34,19 @@ def get_reps():
     state = request.args.get('state')
     zip = request.args.get('zip')
     address = f"{street} {city} {state} {zip}"
-    response_dict = GoogleCivics.get_reps_by_address(address)
+    response_dict = representatives.get_reps_by_address(address)
     return render_template('reps.html', title=f'Reps for {address}', response_obj=response_dict)
 
 
 @bp.route('/elections')
 def get_elections():
-    response_dict = {}
-    elections_list = []
-    google_elections = GoogleCivics.get_elections()
-    gp_elections = Elections.get_election_info()
-    for election in gp_elections:
-        elections_list.append(election)
-    inititail_list = elections_list
-    is_election_new = True
-    for election in google_elections:
-        for initial_election in inititail_list:
-            if election['date'] == initial_election['date'] and election['level_value'] == initial_election['level_value']:
-                is_election_new = False
-                break
-        if is_election_new:
-            elections_list.append(election)
-        is_election_new = True
-    elections_list = sorted(elections_list, key=lambda i: i['date'])
-    response_dict['elections'] = elections_list
+    response_dict = {'elections': elections.get_elections()}
     return render_template('elections.html', title='Upcoming Elections', response_obj=response_dict)
 
 
 @bp.route('/us_gov')
 def get_us_gov():
-    response_dict = Propublica().get_us_members()
+    response_dict = us_representatives.get_us_members()
     return render_template('us_gov.html', title='US Senators', response_obj=response_dict)
 
 
@@ -81,20 +64,21 @@ def get_senators_by_state():
     form = StateForm()
     if form.validate_on_submit():
         return redirect(url_for('civics.get_senators_by_state', state=form.state.data))
+
     state = request.args.get('state')
-    response_dict = OpenStates().get_state_members(state.lower())
+    response_dict = state_representatives.get_state_members(state.lower())
     return render_template('state_gov.html', title=f'Senators for {state}', response_obj=response_dict, form=form)
 
 
 @bp.route('/supreme_court')
 def get_supreme_court():
-    response_dict = {'justices': SupremeCourt.get_justices()}
+    response_dict = {'justices': justices.get_justices()}
     return render_template('supreme_court.html', title=f'Supreme Court', response_obj=response_dict)
 
 
 @bp.route('/candidates')
 def get_candidates():
-    response_dict = {'candidates': Ballotopedia.get_candidates()}
+    response_dict = {'candidates': candidates.get_candidates()}
     return render_template('candidates.html', title=f'Candidates', response_obj=response_dict)
 
 
@@ -102,10 +86,10 @@ def get_candidates():
 @bp.route('/opponents/<state>/<district>')
 def get_us_senate_opponents(state, district):
     if district is None:
-        response_dict = {'opponents': Ballotopedia.get_senate_opponents(state)}
+        response_dict = {'opponents': us_opponents.get_senate_opponents(state)}
         return render_template('opponents.html', title=f'Opponents', response_obj=response_dict)
     else:
-        response_dict = {'opponents': Ballotopedia.get_congressional_opponents(state, district)}
+        response_dict = {'opponents': us_opponents.get_congressional_opponents(state, district)}
         return render_template('opponents.html', title=f'Opponents', response_obj=response_dict)
 
 

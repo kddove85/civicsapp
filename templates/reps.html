@@ -11,16 +11,16 @@
     {% set my_width = "20%" %}
     <table class="table table-image">
         {% for rep in response_obj['reps'] %}
-        <tbody class={{rep['color']}}>
+        <tbody class={{rep.color}}>
 
-                <th colspan="5"><b>{{rep['title']}}</b></th>
+                <th colspan="5"><b>{{rep.title}}</b></th>
 
             <tr>
-                <td rowspan="2"><img src={{rep['photo']}} class="img-fluid img-thumbnail" style="width:70%"></td>
-                <td width={{my_width}}>{{rep['name']}}</td>
-                <td width={{my_width}}>{{rep['party']}}</td>
+                <td rowspan="2"><img src={{ rep.photo_url }} class="img-fluid img-thumbnail" style="width:70%"></td>
+                <td width={{my_width}}>{{rep.name}}</td>
+                <td width={{my_width}}>{{rep.party}}</td>
                 <td width={{my_width}}>
-                    {% for phone in rep['phones'] %}
+                    {% for phone in rep.phones %}
                     {{phone}}<br>
                     {% endfor %}
                 </td>
@@ -30,17 +30,17 @@
             </tr>
             <tr>
                 <td width={{my_width}}>
-                    {% for url in rep['urls'] %}
+                    {% for url in rep.site_links %}
                     <a href={{url}}>Link</a><br>
                     {% endfor %}
                 </td>
                     <td width={{my_width}}>
-                    {% for key in rep['channels'].keys() %}
-                    <a href=https://{{key}}.com/{{rep['channels'][key]}}>{{key}}</a><br>
+                    {% for key in rep.social_medias.keys() %}
+                    <a href=https://{{key}}.com/{{rep.social_medias[key]}}>{{key}}</a><br>
                     {% endfor %}
                 </td>
                 <td width={{my_width}}>
-                    {% for address in rep['address_list'] %}
+                    {% for address in rep.address %}
                         {% for key in address.keys() %}
                             {% if address[key] != "" %}
                                 {{address[key]}}<br>
@@ -50,7 +50,7 @@
                     {% endfor %}
                 </td>
                 <td width={{my_width}}>
-                    {% for email in rep['emails_list'] %}
+                    {% for email in rep.emails %}
                         {{email}}<br>
                     {% endfor %}
                 </td>

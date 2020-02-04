@@ -15,10 +15,10 @@
   <tbody>
   {% for candidate in response_obj['candidates'] %}
     <tr>
-      <td><img class="img-fluid img-thumbnail" style="height: 200px; width: 200px" src="{{ candidate['img'] }}"></td>
-      <td>{{ candidate['name'] }}</td>
-        <td>{{ candidate['score'] }}</td>
-      <td><a href="{{ candidate['link'] }}">Biography Info</a></td>
+      <td><img class="img-fluid img-thumbnail" style="height: 200px; width: 200px" src="{{ candidate.photo_url }}"></td>
+      <td>{{ candidate.name }}</td>
+        <td>{{ candidate.poll_score }}</td>
+      <td><a href="{{ candidate.bio_link }}">Biography Info</a></td>
     </tr>
   {% endfor %}
   </tbody>

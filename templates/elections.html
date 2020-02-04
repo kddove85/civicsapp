@@ -29,10 +29,10 @@
           <tbody>
           {% for election in response_obj['elections'] %}
             <tr>
-              <td>{{ election['name'] }}</td>
-              <td>{{ election['date'] }}</td>
-              <td>{{ election['level'] }}</td>
-              <td>{{ election['level_value'] }}</td>
+              <td>{{ election.name }}</td>
+              <td>{{ election.date }}</td>
+              <td>{{ election.level }}</td>
+              <td>{{ election.level_value }}</td>
             </tr>
           {% endfor %}
           </tbody>

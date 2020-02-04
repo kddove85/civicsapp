@@ -20,19 +20,19 @@
   </thead>
   <tbody>
     {% for member in response_obj['senators'] %}
-        <tr class="{{ member['color'] }}">
-          <td>{{ member['name'] }}</td>
-          <td>{{ member['party'] }}</td>
-          <td>{{ member['state'] }}</td>
-          <td>{{ member['next_election'] }}</td>
-            {% if member['next_election'] == response_obj['current_year'] %}
+        <tr class="{{ member.color }}">
+          <td>{{ member.name }}</td>
+          <td>{{ member.party }}</td>
+          <td>{{ member.state }}</td>
+          <td>{{ member.next_election }}</td>
+            {% if member.next_election == response_obj['current_year'] %}
                 <td><a href="{{ url_for('get_opponents') }}/{{ member['state'] }}">Opponent(s)</a></td>
             {% else %}
                 <td>N/A</td>
             {% endif %}
           <td></td>
           <td>
-            <a href={{ member['search_string'] }}>News</a>
+            <a href={{ member.news_link }}>News</a>
           </td>
         </tr>
     {% endfor %}
@@ -63,18 +63,18 @@
       <tbody>
     {% for member in response_obj['congressmen'] %}
         <tr class="{{ member['color'] }}">
-          <td>{{ member['name'] }}</td>
-          <td>{{ member['party'] }}</td>
-          <td>{{ member['state'] }}</td>
-            <td>{{ member['district'] }}</td>
-          <td>{{ member['next_election'] }}</td>
-            {% if member['next_election'] == response_obj['current_year'] %}
+          <td>{{ member.name }}</td>
+          <td>{{ member.party }}</td>
+          <td>{{ member.state }}</td>
+            <td>{{ member.district }}</td>
+          <td>{{ member.next_election }}</td>
+            {% if member.next_election == response_obj['current_year'] %}
                 <td><a href="{{ url_for('get_opponents') }}/{{ member['state'] }}/{{ member['district'] }}">Opponent(s)</a></td>
             {% else %}
                 <td>N/A</td>
             {% endif %}
             <td>
-                <a href={{ member['search_string'] }}>News</a>
+                <a href={{ member.news_link }}>News</a>
             </td>
         </tr>
     {% endfor %}

@@ -31,12 +31,12 @@
           </thead>
           <tbody>
         {% for member in response_obj['senators'] %}
-            <tr class="{{ member['color'] }}">
-              <td>{{ member['name'] }}</td>
-              <td>{{ member['party'] }}</td>
-              <td>{{ member['district'] }}</td>
+            <tr class="{{ member.color }}">
+              <td>{{ member.name }}</td>
+              <td>{{ member.party }}</td>
+              <td>{{ member.district }}</td>
                 <td>
-                    <a href={{ member['search_string'] }}>News</a>
+                    <a href={{ member.news_link }}>News</a>
                 </td>
             </tr>
         {% endfor %}
@@ -63,12 +63,12 @@
           </thead>
           <tbody>
         {% for member in response_obj['congressmen'] %}
-            <tr class="{{ member['color'] }}">
-              <td>{{ member['name'] }}</td>
-              <td>{{ member['party'] }}</td>
-              <td>{{ member['district'] }}</td>
+            <tr class="{{ member.color }}">
+              <td>{{ member.name }}</td>
+              <td>{{ member.party }}</td>
+              <td>{{ member.district }}</td>
                 <td>
-                    <a href={{ member['search_string'] }}>News</a>
+                    <a href={{ member.news_link }}>News</a>
                 </td>
             </tr>
         {% endfor %}

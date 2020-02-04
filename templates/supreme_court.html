@@ -7,10 +7,10 @@
   <tbody>
   {% for justice in response_obj['justices'] %}
     <tr>
-      <td><img src="{{ justice['photo'] }}"></td>
-      <td>{{ justice['name'] }}</td>
-      <td>{{ justice['title'] }}</td>
-      <td>{{ justice['appointee'] }}</td>
+      <td><img src="{{ justice.photo_url }}"></td>
+      <td>{{ justice.name }}</td>
+      <td>{{ justice.title }}</td>
+      <td>{{ justice.appointee }}</td>
     </tr>
   {% endfor %}
   </tbody>

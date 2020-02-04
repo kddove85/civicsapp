@@ -1,16 +1,19 @@
 from bs4 import BeautifulSoup
 import requests
+import constants
 
-base_url = 'https://www.supremecourt.gov/about/'
-biographies = 'biographies.aspx'
 
-gp_url = 'https://www.thegreenpapers.com/Hx/'
-justices_endpoint = 'SupremeCourt.html'
+class Justice:
+    def __init__(self, photo_url, name, title, appointee):
+        self.photo_url = photo_url
+        self.name = name
+        self.title = title
+        self.appointee = appointee
 
 
 def get_justices():
-    response = requests.get(f"{base_url}{biographies}")
-    gp_response = requests.get(f"{gp_url}{justices_endpoint}")
+    response = requests.get(f"{constants.supreme_court_url}{constants.biographies}")
+    gp_response = requests.get(f"{constants.gp_url_hx}{constants.justices_endpoint}")
     soup = BeautifulSoup(response.text, 'html.parser')
     gp_soup = BeautifulSoup(gp_response.text, 'html.parser')
 
@@ -67,15 +70,19 @@ def get_appointed_by(soup):
 
 
 def combine(justices, photos, appointees):
+    justice_list = []
     for justice in justices:
+        name = justice['name']
+        title = justice['title']
         for photo in photos:
             if justice['name'] == photo['name']:
-                justice['photo'] = f"{base_url}{photo['photo']}"
-        for appointee in appointees:
-            if name_check(justice['name'], appointee['name']):
-                justice['appointee'] = appointee['appointee']
+                photo_url = f"{constants.supreme_court_url}{photo['photo']}"
+        for appointment in appointees:
+            if name_check(justice['name'], appointment['name']):
+                appointee = appointment['appointee']
                 break
-    return justices
+        justice_list.append(Justice(photo_url, name, title, appointee))
+    return justice_list
 
 
 def remove_middle_initial(name):

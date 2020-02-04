@@ -3,22 +3,32 @@ import requests
 import states
 import datetime
 import inflect
+import constants
 
-p = inflect.engine()
-current_year = str(datetime.datetime.now().year)
-base_url = 'https://ballotpedia.org'
-candidates = f'/Democratic_presidential_nomination,_{current_year}'
-rcp = f'https://www.realclearpolitics.com/epolls/2020/president/us/{current_year}_democratic_presidential_nomination-6730.html'
-apostrophe = '%27'
+
+class Opponent:
+    def __init__(self, name, party, color, link):
+        self.name = name
+        self.party = party
+        self.color = color
+        self.link = link
+
+    def compare(self, other_opponent):
+        if self.name == other_opponent.name and self.party == other_opponent.party and self.color == other_opponent.color and self.link == other_opponent.link:
+            return True
+        return False
 
 
 def get_senate_opponents(state):
+    current_year = str(datetime.datetime.now().year)
     opponents = []
     state_name = states.return_name(state)
     state_name = state_name.replace(' ', '_')
-    response = requests.get(f"{base_url}/United_States_Senate_election_in_{state_name},_{current_year}")
+    response = requests.get(
+        f"{constants.ballotpedia_url}/United_States_Senate_election_in_{state_name},_{current_year}")
     if response.status_code != 200:
-        response = requests.get(f"{base_url}/United_States_Senate_special_election_in_{state_name},_{current_year}")
+        response = requests.get(
+            f"{constants.ballotpedia_url}/United_States_Senate_special_election_in_{state_name},_{current_year}")
     soup = BeautifulSoup(response.text, 'html.parser')
     unordered_lists = soup.find_all('ul')
     for ul in unordered_lists:
@@ -28,7 +38,7 @@ def get_senate_opponents(state):
                 links = li.find_all('a')
                 for link in links:
                     attrs = link.attrs
-                    if base_url in attrs['href'] and '(Incumbent)' not in li.text:
+                    if constants.ballotpedia_url in attrs['href'] and 'Incumbent' not in li.text:
                         party = 'Independent'
                         color = 'bg-default'
                         if 'democrat' in ul.fetchPrevious('span')[0].text.lower():
@@ -37,13 +47,22 @@ def get_senate_opponents(state):
                         if 'republican' in ul.fetchPrevious('span')[0].text.lower():
                             party = 'Republican'
                             color = 'bg-danger'
-                        opponents.append({'name': link.text, 'party': party, 'color': color, 'link': attrs['href']})
+                        exists = False
+                        new_opponent = Opponent(link.text, party, color, attrs['href'])
+                        for opponent in opponents:
+                            if new_opponent.compare(opponent):
+                                exists = True
+                                break
+                        if not exists:
+                            opponents.append(Opponent(link.text, party, color, attrs['href']))
         except (AttributeError, KeyError):
             continue
     return opponents
 
 
 def get_congressional_opponents(state, district):
+    p = inflect.engine()
+    current_year = str(datetime.datetime.now().year)
     opponents = []
     state_name = states.return_name(state)
     if district != 'At-Large':
@@ -51,7 +70,7 @@ def get_congressional_opponents(state, district):
     else:
         district_name = district
     state_name = state_name.replace(' ', '_')
-    url = f"{base_url}/{state_name}{apostrophe}s_{district_name}_Congressional_District_election,_{current_year}"
+    url = f"{constants.ballotpedia_url}/{state_name}{constants.apostrophe}s_{district_name}_Congressional_District_election,_{current_year}"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     unordered_lists = soup.find_all('ul')
@@ -62,7 +81,7 @@ def get_congressional_opponents(state, district):
                 links = li.find_all('a')
                 for link in links:
                     attrs = link.attrs
-                    if base_url in attrs['href'] and '(Incumbent)' not in li.text:
+                    if constants.ballotpedia_url in attrs['href'] and 'Incumbent' not in li.text:
                         party = 'Independent'
                         color = 'bg-default'
                         if 'democrat' in ul.fetchPrevious('span')[0].text.lower() or '(D)' in li.text:
@@ -71,8 +90,14 @@ def get_congressional_opponents(state, district):
                         if 'republican' in ul.fetchPrevious('span')[0].text.lower() or '(R)' in li.text:
                             party = 'Republican'
                             color = 'bg-danger'
-                        opponents.append({'name': link.text, 'party': party, 'color': color, 'link': attrs['href']})
+                        exists = False
+                        new_opponent = Opponent(link.text, party, color, attrs['href'])
+                        for opponent in opponents:
+                            if new_opponent.compare(opponent):
+                                exists = True
+                                break
+                        if not exists:
+                            opponents.append(Opponent(link.text, party, color, attrs['href']))
         except (AttributeError, KeyError):
             continue
     return opponents
-

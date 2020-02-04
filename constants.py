@@ -5,6 +5,10 @@ google_elections_url = 'https://www.googleapis.com/civicinfo/v2/elections'
 
 open_states_url = "https://openstates.org/api/v1/legislators?state="
 
+propublica_url = "https://api.propublica.org/congress/v1/"
+senate_endpoint = "/senate/members.json"
+house_endpoint = "/house/members.json"
+
 search_string_prefix = "https://news.google.com/search?q="
 search_string_suffix = "&hl=en-US&gl=US&ceid=US%3Aen"
 gp_url_g20 = 'http://www.thegreenpapers.com/G20/'

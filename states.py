@@ -49,8 +49,19 @@ states = [
     {"name": "Washington", "alpha": "WA"},
     {"name": "West Virginia", "alpha": "WV"},
     {"name": "Wisconsin", "alpha": "WI"},
-    {"name": "Wyoming", "alpha": "WY"}
+    {"name": "Wyoming", "alpha": "WY"},
+    {"name": "American Samoa", "alpha": "AS"},
+    {"name": "Guam", "alpha": "GU"},
+    {"name": "Virgin Islands", "alpha": "VI"},
 ]
+
+
+def get_states():
+    choices = [(s['alpha'], s['name']) for s in states]
+    choices.remove(('AS', 'American Samoa'))
+    choices.remove(('GU', 'Guam'))
+    choices.remove(('VI', 'Virgin Islands'))
+    return choices
 
 
 def return_name(alpha):

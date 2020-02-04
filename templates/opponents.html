@@ -3,16 +3,20 @@
 {% block app_content %}
 <h1>Opponents</h1>
 
+{% if response_obj['opponents'] %}
 <table class="table">
   <tbody>
   {% for opponent in response_obj['opponents'] %}
-    <tr class="{{ opponent['color'] }}">
-      <td>{{ opponent['name'] }}</td>
-      <td>{{ opponent['party'] }}</td>
-      <td><a href = "{{ opponent['link'] }}">Biography</a></td>
+    <tr class="{{ opponent.color }}">
+      <td>{{ opponent.name }}</td>
+      <td>{{ opponent.party }}</td>
+      <td><a href = "{{ opponent.link }}">Biography</a></td>
     </tr>
   {% endfor %}
   </tbody>
 </table>
+{% else %}
+<h3 style="text-align: center">No Other Candidates Running at this Time</h3>
+{% endif %}
 
 {% endblock %}

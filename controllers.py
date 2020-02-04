@@ -2,14 +2,13 @@ from flask import (
     Blueprint, redirect, render_template, request, url_for
 )
 
-from integrations import Propublica
-from integrations import Ballotopedia
 from models import representatives
+from models import us_representatives
 from models import state_representatives
+from models import us_opponents
 from models import elections
 from models import justices
 from models import candidates
-from integrations.Propublica import Propublica
 from forms import AddressForm
 from forms import StateForm
 
@@ -47,7 +46,7 @@ def get_elections():
 
 @bp.route('/us_gov')
 def get_us_gov():
-    response_dict = Propublica().get_us_members()
+    response_dict = us_representatives.get_us_members()
     return render_template('us_gov.html', title='US Senators', response_obj=response_dict)
 
 
@@ -87,10 +86,10 @@ def get_candidates():
 @bp.route('/opponents/<state>/<district>')
 def get_us_senate_opponents(state, district):
     if district is None:
-        response_dict = {'opponents': Ballotopedia.get_senate_opponents(state)}
+        response_dict = {'opponents': us_opponents.get_senate_opponents(state)}
         return render_template('opponents.html', title=f'Opponents', response_obj=response_dict)
     else:
-        response_dict = {'opponents': Ballotopedia.get_congressional_opponents(state, district)}
+        response_dict = {'opponents': us_opponents.get_congressional_opponents(state, district)}
         return render_template('opponents.html', title=f'Opponents', response_obj=response_dict)
 
 

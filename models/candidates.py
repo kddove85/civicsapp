@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 import datetime
-import inflect
 import constants
 
 
@@ -14,7 +13,6 @@ class Candidate:
 
 
 def get_candidates():
-    p = inflect.engine()
     current_year = str(datetime.datetime.now().year)
     response = requests.get(f"{constants.ballotpedia_url}{constants.candidates}{current_year}")
     soup = BeautifulSoup(response.text, 'html.parser')

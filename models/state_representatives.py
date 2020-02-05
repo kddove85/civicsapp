@@ -1,5 +1,8 @@
+from bs4 import BeautifulSoup
 import requests
 import os
+import datetime
+import states
 import utilities
 import constants
 
@@ -19,10 +22,26 @@ def get_state_members(state):
                        'senate_democrats': 0,
                        'senate_republicans': 0,
                        'senate_independents': 0,
+                       'senate_next_election': None,
                        'house_members_list': [],
                        'house_democrats': 0,
                        'house_republicans': 0,
-                       'house_independents': 0}
+                       'house_independents': 0,
+                       'house_next_election': None}
+
+    response = requests.get(f"{constants.ballotpedia_url}/{states.return_name(state.upper())}{constants.state_senate}")
+    soup = BeautifulSoup(response.text, 'html.parser')
+    infobox = soup.findAll('table', {"class": 'infobox'})[0]
+    date = infobox.findAll('a')[-1].text
+    date_parts = date.split(',')
+    info_dictionary['senate_next_election'] = date_parts[1].strip()
+
+    response = requests.get(f"{constants.ballotpedia_url}/{states.return_name(state.upper())}{constants.state_house}")
+    soup = BeautifulSoup(response.text, 'html.parser')
+    infobox = soup.findAll('table', {"class": 'infobox'})[0]
+    date = infobox.findAll('a')[-1].text
+    date_parts = date.split(',')
+    info_dictionary['house_next_election'] = date_parts[1].strip()
 
     response_object = {'state': state}
     response = requests.get(f"{constants.open_states_url}{state}",
@@ -52,6 +71,11 @@ def get_state_members(state):
     response_object['house_dems'] = info_dictionary['house_democrats']
     response_object['house_reps'] = info_dictionary['house_republicans']
     response_object['house_inds'] = info_dictionary['house_independents']
+
+    response_object['senate_next_election'] = info_dictionary['senate_next_election']
+    response_object['house_next_election'] = info_dictionary['house_next_election']
+
+    response_object['current_year'] = str(datetime.datetime.now().year)
 
     return response_object
 

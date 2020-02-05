@@ -21,6 +21,8 @@ supreme_court_url = 'https://www.supremecourt.gov/about/'
 biographies = 'biographies.aspx'
 
 ballotpedia_url = 'https://ballotpedia.org'
+state_house = '_House_of_Representatives'
+state_senate = '_State_Senate'
 candidates = f'/Democratic_presidential_nomination,_'
 
 rcp_url = f'https://www.realclearpolitics.com/epolls/2020/president/us/'

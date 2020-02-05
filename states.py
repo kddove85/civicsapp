@@ -7,7 +7,6 @@ states = [
     {"name": "Colorado", "alpha": "CO"},
     {"name": "Connecticut", "alpha": "CT"},
     {"name": "Delaware", "alpha": "DE"},
-    {"name": "District of Columbia", "alpha": "DC"},
     {"name": "Florida", "alpha": "FL"},
     {"name": "Georgia", "alpha": "GA"},
     {"name": "Hawaii", "alpha": "HI"},
@@ -51,6 +50,7 @@ states = [
     {"name": "Wisconsin", "alpha": "WI"},
     {"name": "Wyoming", "alpha": "WY"},
     {"name": "American Samoa", "alpha": "AS"},
+    {"name": "District of Columbia", "alpha": "DC"},
     {"name": "Guam", "alpha": "GU"},
     {"name": "Virgin Islands", "alpha": "VI"},
 ]
@@ -61,6 +61,7 @@ def get_states():
     choices.remove(('AS', 'American Samoa'))
     choices.remove(('GU', 'Guam'))
     choices.remove(('VI', 'Virgin Islands'))
+    choices.remove(('DC', 'District of Columbia'))
     return choices
 
 

@@ -26,6 +26,7 @@
               <th scope="col">Name</th>
               <th scope="col">Party</th>
               <th scope="col">District</th>
+                <th>Next Election</th>
                 <th scope="col"></th>
             </tr>
           </thead>
@@ -35,6 +36,7 @@
               <td>{{ member.name }}</td>
               <td>{{ member.party }}</td>
               <td>{{ member.district }}</td>
+                <td>{{ response_obj['senate_next_election'] }}</td>
                 <td>
                     <a href={{ member.news_link }}>News</a>
                 </td>
@@ -58,6 +60,7 @@
               <th scope="col">Name</th>
               <th scope="col">Party</th>
               <th scope="col">District</th>
+                <th scope="col">Next Election</th>
                 <th scope="col"></th>
             </tr>
           </thead>
@@ -67,6 +70,7 @@
               <td>{{ member.name }}</td>
               <td>{{ member.party }}</td>
               <td>{{ member.district }}</td>
+                <td>{{ response_obj['house_next_election'] }}</td>
                 <td>
                     <a href={{ member.news_link }}>News</a>
                 </td>
